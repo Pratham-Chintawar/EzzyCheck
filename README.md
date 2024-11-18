@@ -1,80 +1,50 @@
-# Fake product detection using blockchain
+# Fake Product Identification using Blockchain
 
-## Prerequisites
+## Packages Required:-
+- Truffle v5.6.7 (core: 5.6.7)
+- Ganache v7.5.0
+- Solidity v0.5.16 (solc-js)
+- Node v15.8.0
+- Web3.js v1.7.4
+- npm 7.5.1
 
-Before starting, make sure you have the following installed:
+## Other Requirements:-
+1. Any chromium based browser i.e. Chrome 
+2. Metamask browser extension
+    
+## setup process 
 
-- [Truffle](https://www.trufflesuite.com/truffle)
-- [Ganache](https://truffleframework.com/ganache)
-- [Metamask](https://metamask.io/)
-- [NodeJs](https://nodejs.org/en/download/current/)
-
-## Steps to follow for Local Setup(Ganache)
-
-- Clone & install dependencies
-
-```js
-    git clone repoUrl .  // (OR Download Zip)
-    npm install
+1. Clone the project
+```
+git clone https://github.com/Pratham-Chintawar/ezzy.git
+```
+2. Go to the project folder, open terminal there and run following command to install required node_modules:-
+```
+npm install
+```
+3. Compile contract source files. (Compilation and deployment can be done using truffle migrate):-
+```
+truffle compile
+```
+4. Open Ganache, (to setup local blockchain)
+    - crerate new workspace
+    - add truffle-config.js  in truffle project 
+    - change port to 7545 in server settings (same as port in truffle-config.js)
+5. In chrome, open metamask 
+   - add new test network using  
+        - NETWORK ID (i.e. 5777 ,from Ganache Server settings) 
+        - RPC SERVER (i.e HTTP://127.0.0.1:8545 ,from Ganache Server settings)
+        - CHAIN CODE (i.e. 1337)
+   - import account using private key of any account from local blockchain available in Ganache.
+6. In terminal, run following commands:-
+- Run migrations to deploy contracts.
+```
+truffle migrate
 ```
 
-- Modify truffle-config.js - uncomment development
-
-```js
-  development: {
-      host: "127.0.0.1", // Localhost (default: none)
-      port: 7545, // Standard Ethereum port (default: none)
-      network_id: "*", // Any network (default: none)
-    },
+- To start a server and it will open a homepage (index.html) file in the default browser.
 ```
-
-- Setup Ganache
-
-  - start ganache gui, in ganache create your workspace and import private keys of account adderess in metamask for testing and connect them with ganache gui
-  - Add Ganache GUI network in metamask
-    Add Network
-    ```bash
-       Network name : Ganache GUI
-       New RPC URL : HTTP://127.0.0.1:7545
-       Chain ID: 1337
-       Currency symbol: ETH
-    ```
-
-- Delete Build folder & Delete product.json present in src/ folder & src/js folder
-
-- Compile & deploy smart contract
-
-```js
-    truffle compile
-    truffle migrate
-```
-
-- Copy product.json which is created in build/contracts/ folder & Paste in in src/ folder & src/js folder.
-
-- Copy ABI and contractAddress from product.json & Paste it in verifyProduct.html & consumerPurchaseHistory.html. You will get ABI & contract Address from product.json, product.json have 2 variables 1) abi 2)address in networks variable which is contract address
-
-- Run Project
-
-```js
-    npm run dev
-```
-
-## Sample Data for Local blockchain
-
-- 4 sample inputs givens in test/sampleInput.txt under the heading Input data for local blockchain on line no 87
-
-## References
-
-- Html5-qrcode docs , https://scanapp.org/blog/
-
-- metamask connection setup with ganache, https://www.youtube.com/watch?v=jLFXONkA4KM
-
-- deploying on goerli testnet , https://www.youtube.com/watch?v=b_k8yDC3hdM&feature=youtu.be
-
-# Report Fake Product
-
-1. consumer helpline
-
-   Website url: https://consumerhelpline.gov.in/contact.php
-
-   Mail: nch-ca@gov.in
+npm run dev 
+``` 
+7. Login to metamask ,and connect the added account to local blockchain (i.e.localhost:3000)
+8. Interact with website
