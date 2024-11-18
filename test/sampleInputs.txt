@@ -1,0 +1,215 @@
+## 1st Sample input
+
+# Add Product
+
+Macbook Air M2
+Apple
+1500000
+
+# Add Seller
+
+Vinay Kumar
+Tech Delux
+4747
+7474382394
+Jay Kapoor
+Solapur, Pune
+
+# consumer Aadhaar
+
+2345623456234562
+
+
+## 2nd Sample input
+
+# Add Product
+
+Motorola G32
+Motorola
+20000
+
+# Add Seller
+
+Manoj Kate
+Sai Tech
+232323
+87767382394
+Gopal Mene
+Nagpur
+
+# consumer Aadhaar
+
+6789067890678906
+
+## 3rd Sample input
+
+# Add Product
+
+Skinshine Cream
+Abbot
+1000
+
+# Add Seller
+
+Dhanush Tonde
+Genrica
+5212
+4474582324
+Aniket Roy
+Sangli
+
+# consumer Aadhaar
+
+5345623156234565
+
+
+#nth sample input
+
+# Add Product
+
+Poco F7
+Redmi
+3000
+
+# Add Seller
+
+Dhanush Gaitonde
+Techneo
+1212
+5474582322
+Aniket Singh
+Warje
+
+# consumer Aadhaar
+
+8745623156234565
+
+------------------------Input data for local blockchain-----------------------------
+
+#1st sample input
+
+# Add Product
+
+Iphone 13
+Apple
+80000
+
+# Add Seller
+
+Varun More
+Infotech
+8383
+5678998765
+Aniket Roy
+Mumbai
+
+# consumer Aadhaar
+
+9745619156234592
+
+
+#2nd sample input
+
+# Add Product
+
+Airdopes 131
+Boat
+90000
+
+# Add Seller
+
+Aman Shaikh
+BigByte
+989898
+7899878765
+Akashay Kapoor
+Kolkata
+
+# consumer Aadhaar
+
+4587617856234592
+
+#3rd sample input
+
+# Add Product
+
+Router
+Tplink
+3000
+
+# Add Seller
+
+Jennifer Johnson
+Fossbytes
+572829
+959278528165
+John Ferguson
+Chennai
+
+# consumer Aadhaar
+
+9083217856534592
+
+#4th sample input
+
+# Add Product
+
+Gaming Chair
+Tencer
+23000
+
+# Add Seller
+
+Mohamed Petersen
+BitShape
+975782
+869278528165
+Kaylen Reese
+Goa
+
+# consumer Aadhaar
+
+8093217856534591
+
+## 5th Sample input
+
+# Add Product
+
+Galaxy J77
+Samsung
+200000
+
+# Add Seller
+
+Reva Nayar
+Pearltech
+5383695
+98754382304
+Nitya Basu
+Kerla
+
+# consumer Aadhaar
+
+9845628256234565
+
+## 6th Sample input
+
+# Add Product
+
+Earpods 131
+Boat
+1000
+
+# Add Seller
+
+Jay Deshmukh
+SeedTech
+881323
+77755382304
+Sherya Ubhe
+Mumbai
+
+# consumer Aadhaar
+
+6743428256234565
+

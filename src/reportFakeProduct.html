@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="fav.ico" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+    <style>
+      /* These classes are for solving issue of footer -- */
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .content {
+        flex: 1 0 auto;
+      }
+
+      .footer {
+        flex-shrink: 0;
+      }
+    </style>
+    <title>Report Fake Product</title>
+  </head>
+
+  <body>
+    <div class="content">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">
+            <img src="./assets/abc.png" height="30" width="110" alt="" />
+          </a>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="collapse navbar-collapse justify-content-end"
+            id="navbarNav"
+          >
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="manufacturer.html"
+                  >Manufacturer</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="seller.html">Seller</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="consumer.html">Consumer</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Section  -->
+      <section
+        id="hero"
+        class="d-flex justify-content-center align-items-center"
+        style="min-height: 92%"
+      >
+        <div
+          class="container col-md-12 px-4 mt-5 mt-sm-4 mt-md-4 mt-lg-4 mt-xl-0"
+        >
+          <div class="row" style="min-height: calc(100vh - 150px)">
+            <div
+              class="col-md-12 d-flex align-items-center flex-column text-center"
+            >
+              <h1 class="display-5 fw-bold lh-1 mb-8">Report Fake Product</h1>
+
+              <div class="d-flex flex-column flex-md-row text-center">
+                <a
+                  type="submit"
+                  class="btn btn-primary btn-register mt-5 me-md-4"
+                  id="register"
+                  href="mailto:nch-ca@gov.in"
+                  target="_blank"
+                >
+                  Report To Consumer Helpline
+                </a>
+                <a
+                  type="submit"
+                  class="btn btn-primary btn-register mt-5"
+                  id="register"
+                  href="mailto:verifieye@gmail.com"
+                  target="_blank"
+                >
+                  Report To Verifieye
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer  -->
+    <div class="footer bg-dark text-center text-light py-1">
+      Copyright © 2023, All Rights Reserved
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script> -->
+    <!-- <script src="js/main.js"></script> -->
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+  </body>
+</html>

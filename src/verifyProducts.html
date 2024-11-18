@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Verify Products</title>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,700" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
+  <link rel="icon" type="image/x-icon" href="fav.ico" />
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@0.20.6/dist/web3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@0.20.6/dist/web3.js"></script>
+  <style>
+    /* These classes are for solving issue of footer -- */
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content {
+      flex: 1 0 auto;
+    }
+
+    .footer {
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+
+<body onload="connectContract()">
+  <div class="content">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">
+          <!-- <img
+                        src="logo.png"
+                        alt="Logo"
+                        width="auto"
+                        height="30"
+                        class="d-inline-block align-text-top"
+                      /> -->
+          <img src="./assets/abc.png" height="30" width="110" alt="" />
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link fs-5" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-5" href="consumerPurchaseHistory.html">Consumer Purchase History</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-5" href="verifyProducts.html">Product Verification</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-5" href="reportFakeProduct.html">Report Fake Product</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section>
+      <div class="container mt-3 mb-5 mb-sm-3 mb-md-2 mb-lg-1">
+        <h2 class="h2 text-center">Verify Products</h2>
+
+        <section>
+          <div class="container-fluid d-flex flex-column justify-content-center align-items-center gap-2 mt-3 mb-3">
+            <div id="qr-reader" style="width: 300px"></div>
+            <!-- <div id="qr-reader-results"></div> -->
+          </div>
+        </section>
+
+        <div class="row">
+          <div class="d-flex flex-column flex-sm-column flex-md-row flex-lg-row col-md-12 gap-3">
+            <div class="mb-1 col-md-6">
+              <label for="productSN">Product SN</label>
+              <input disabled type="text" class="form-control" id="productSN" name="productSN" />
+            </div>
+            <div class="mb-1 col-md-6">
+              <label for="consumerCode">Consumer Aadhaar</label>
+              <input type="number" class="form-control" id="consumerCode" name="consumerCode"
+                placeholder="Enter 16 digit Aadhaar Number" />
+            </div>
+          </div>
+        </div>
+
+        <div class="clear">&nbsp;</div>
+        <div class="d-flex justify-content-center align-items-center">
+          <button type="submit" class="btn btn-primary btn-register col-4 col-sm-4 col-md-2" id="register"
+            onclick="showProductStatus()">
+            Verify Product
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container" id="productStatusBox" hidden>
+        <h2 class="h2">Product Status</h2>
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr class="bg-primary text-white">
+                <th>Product Verification Result</th>
+              </tr>
+            </thead>
+            <tbody id="logdata"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- Footer  -->
+  <div class="footer col-12 bg-dark text-center text-light py-1">
+    Copyright © 2023, All Rights Reserved
+  </div>
+
+  <script>
+    // Script for interacting with smart contract
+    const ganacheEndpoint = "http://127.0.0.1:7545";
+    // const ganacheEndpoint = "http://localhost:7545";
+
+    const connectContract = async () => {
+
+
+      const ABI = [
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "productItems",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "productId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "productSN",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "productName",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "productBrand",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "productPrice",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "productStatus",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "name": "productMap",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "name": "productsForSale",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "name": "productsManufactured",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "name": "productsSold",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "productsWithConsumer",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "productsWithSeller",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "sellers",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "sellerId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "sellerName",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "sellerBrand",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "sellerCode",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "sellerNum",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "sellerManager",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "sellerAddress",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "sellersWithManufacturer",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "_manufacturerId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "_sellerName",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "_sellerBrand",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "_sellerCode",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "_sellerNum",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "_sellerManager",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "_sellerAddress",
+              "type": "bytes32"
+            }
+          ],
+          "name": "addSeller",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "viewSellers",
+          "outputs": [
+            {
+              "internalType": "uint256[]",
+              "name": "",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "_manufactuerID",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "_productName",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "_productSN",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "_productBrand",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "_productPrice",
+              "type": "uint256"
+            }
+          ],
+          "name": "addProduct",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "viewProductItems",
+          "outputs": [
+            {
+              "internalType": "uint256[]",
+              "name": "",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "_productSN",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "_sellerCode",
+              "type": "bytes32"
+            }
+          ],
+          "name": "manufacturerSellProduct",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "_productSN",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "_consumerCode",
+              "type": "bytes32"
+            }
+          ],
+          "name": "sellerSellProduct",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "_sellerCode",
+              "type": "bytes32"
+            }
+          ],
+          "name": "queryProductsList",
+          "outputs": [
+            {
+              "internalType": "uint256[]",
+              "name": "",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "_manufacturerCode",
+              "type": "bytes32"
+            }
+          ],
+          "name": "querySellersList",
+          "outputs": [
+            {
+              "internalType": "uint256[]",
+              "name": "",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "_consumerCode",
+              "type": "bytes32"
+            }
+          ],
+          "name": "getPurchaseHistory",
+          "outputs": [
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "",
+              "type": "bytes32[]"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "_productSN",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "_consumerCode",
+              "type": "bytes32"
+            }
+          ],
+          "name": "verifyProduct",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "constant": true
+        }
+      ];
+
+      const Address = "0x5f94cdd28d976636152168d7DCE626dAfcbd1e57"; // contract Address
+      window.web3 = await new Web3(ganacheEndpoint);
+
+      window.contract = await new window.web3.eth.Contract(ABI, Address);
+    };
+
+    const readContract = async () => {
+      let productData = document.getElementById("productSN").value;
+
+      let aadharData = document.getElementById("consumerCode").value;
+
+      let aadhar = web3.utils.asciiToHex(aadharData);
+      //  console.log(aadhar);
+
+      let productSN = web3.utils.asciiToHex(productData);
+      //console.log(productSN);
+
+      const result = await window.contract.methods
+        .verifyProduct(productSN, aadhar)
+        .call();
+
+      // console.log(result);
+
+      var t = "";
+
+      var tr = "<tr>";
+      if (result) {
+        tr += "<td>" + "Genuine Product." + "</td>";
+      } else {
+        tr += "<td>" + "Fake Product." + "</td>";
+      }
+      tr += "</tr>";
+      t += tr;
+
+      document.getElementById("logdata").innerHTML = t;
+    };
+  </script>
+
+  <script>
+    // script for only allowing 16 digit number input
+    let consumerCodeInput = document.getElementById("consumerCode");
+
+    consumerCodeInput.addEventListener("input", function () {
+      if (consumerCodeInput.value.length > 16) {
+        consumerCodeInput.value = consumerCodeInput.value.slice(0, 16);
+      }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="js/popper.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <!-- <script src="js/main.js"></script> -->
+  <!-- <script src="js/web3.min.js"></script> -->
+  <!-- <script src="js/truffle-contract.js"></script> -->
+  <!-- <script src="js/verifyProduct.js"></script> -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script>
+    var decodedText = "Enter Product SN";
+    function docReady(fn) {
+      // see if DOM is already available
+      if (
+        document.readyState === "complete" ||
+        document.readyState === "interactive"
+      ) {
+        // call on next available tick
+        setTimeout(fn, 1);
+      } else {
+        document.addEventListener("DOMContentLoaded", fn);
+      }
+    }
+
+    docReady(function () {
+      // var resultContainer = document.getElementById("qr-reader-results");
+      var lastResult,
+        countResults = 0;
+      function onScanSuccess(decodedText, decodedResult) {
+        if (decodedText !== lastResult) {
+          ++countResults;
+          lastResult = decodedText;
+          // Handle on success condition with the decoded message.
+          var audio = new Audio("beep.wav");
+          audio.play();
+          // console.log(`Scan result ${decodedText}`, decodedResult);
+          // document.getElementById("qr-reader-results").innerHTML = decodedText;
+          document.getElementById("productSN").value = decodedText;
+          //App.init(decodedText);
+        }
+      }
+
+      var html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
+        fps: 10,
+        qrbox: 250,
+        supportedScanTypes: [
+          Html5QrcodeScanType.SCAN_TYPE_FILE,
+          Html5QrcodeScanType.SCAN_TYPE_CAMERA,
+        ],
+      });
+      html5QrcodeScanner.render(onScanSuccess);
+    });
+  </script>
+
+  <script>
+    // js for showing product Status
+    let productStatus = document.getElementById("productStatusBox");
+
+    function showProductStatus() {
+      let productData = document.getElementById("productSN").value;
+      let aadharData = document.getElementById("consumerCode").value;
+
+      if (productData.length != 0 && aadharData.length != 0) {
+        readContract();
+        productStatus.removeAttribute("hidden");
+      } else {
+        alert("Please Enter All details!");
+        window.location.reload();
+      }
+    }
+  </script>
+</body>
+
+</html>

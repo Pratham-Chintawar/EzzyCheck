@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sell Product to Seller</title>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/x-icon" href="fav.ico" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <style>
+      /* These classes are for solving issue of footer -- */
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .content {
+        flex: 1 0 auto;
+      }
+
+      .footer {
+        flex-shrink: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">
+            <img src="./assets/abc.png" height="30" width="110" alt="" />
+          </a>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="collapse navbar-collapse justify-content-end"
+            id="navbarNav"
+          >
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="addProduct.html">Add Product</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="addSeller.html">Add Seller</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="sellProductManufacturer.html"
+                  >Sell Product To Seller</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="querySeller.html"
+                  >Query Seller</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <section>
+        <div class="container mt-3 mb-5 mb-sm-3 mb-md-2 mb-lg-1">
+          <h2 class="h2 text-center">Sell Product to Seller</h2>
+
+          <section>
+            <div
+              class="container-fluid d-flex flex-column justify-content-center align-items-center gap-2 mt-3 mb-3"
+            >
+              <div id="qr-reader" style="width: 300px"></div>
+              <!-- <div id="qr-reader-results"></div> -->
+            </div>
+          </section>
+
+          <div class="row">
+            <div
+              class="d-flex flex-column flex-sm-column flex-md-row flex-lg-row col-md-12 gap-3"
+            >
+              <div class="mb-1 col-md-6">
+                <label for="productSN" class="form-label">Product SN</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="productSN"
+                  name="productSN"
+                  aria-describedby="productSN"
+                  disabled
+                />
+              </div>
+              <div class="mb-1 col-md-6">
+                <label for="sellerCode" class="form-label">Seller Code</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="sellerCode"
+                  name="sellerCode"
+                  aria-describedby="sellerCode"
+                />
+              </div>
+            </div>
+
+            <div class="clear">&nbsp;</div>
+
+            <div class="d-flex justify-content-center align-items-center">
+              <button
+                type="submit"
+                class="btn btn-primary btn-register col-4 col-sm-4 col-md-2"
+                id="register"
+              >
+                Sell to Seller
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="footer bg-dark text-center text-light py-1">
+      Copyright © 2023, All Rights Reserved
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="js/main.js"></script> -->
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/sellProductManufacturer.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+      var decodedText = "Enter Product SN";
+      function docReady(fn) {
+        // see if DOM is already available
+        if (
+          document.readyState === "complete" ||
+          document.readyState === "interactive"
+        ) {
+          // call on next available tick
+          setTimeout(fn, 1);
+        } else {
+          document.addEventListener("DOMContentLoaded", fn);
+        }
+      }
+
+      docReady(function () {
+        // var resultContainer = document.getElementById("qr-reader-results");
+        var lastResult,
+          countResults = 0;
+        function onScanSuccess(decodedText, decodedResult) {
+          if (decodedText !== lastResult) {
+            ++countResults;
+            lastResult = decodedText;
+            // Handle on success condition with the decoded message.
+            var audio = new Audio("beep.wav");
+            audio.play();
+            // console.log(`Scan result ${decodedText}`, decodedResult);
+            // document.getElementById("qr-reader-results").innerHTML =
+            //   decodedText;
+            document.getElementById("productSN").value = decodedText;
+            //App.init(decodedText);
+          }
+        }
+
+        var html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
+          fps: 10,
+          qrbox: 250,
+          supportedScanTypes: [
+            Html5QrcodeScanType.SCAN_TYPE_FILE,
+            Html5QrcodeScanType.SCAN_TYPE_CAMERA,
+          ],
+        });
+        html5QrcodeScanner.render(onScanSuccess);
+      });
+    </script>
+  </body>
+</html>

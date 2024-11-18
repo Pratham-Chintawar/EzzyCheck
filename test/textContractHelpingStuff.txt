@@ -1,0 +1,20 @@
+product.deployed().then(function(instance) {return instance });
+
+//--------- querySeller() function ------- 
+
+let ganacheAddress1 = 0xd95c3786e63b0598fed3f2683f025e8fedc903f0;
+let manufacturerCode = web3.utils.asciiToHex(ganacheAddress1);
+product.deployed().then(function(instance) {return instance.querySellersList(manufacturerCode) });
+
+
+
+//--------- getPurchaseHistory() function ------- 
+let aadharData = 8093217856534591;
+let aadhar = web3.utils.asciiToHex(aadharData);
+product.deployed().then(function(instance) {return instance.getPurchaseHistory(aadhar) });
+
+let aadharResult = web3.utils.hexToAscii(aadhar);
+
+
+let result = product.deployed().then(function(instance) {return instance });
+result.

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+    <link rel="icon" type="image/x-icon" href="fav.ico" />
+    <!-- <link rel="stylesheet" href="css/style.css" /> -->
+    <style>
+      /* These classes are for solving issue of footer -- */
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .content {
+        flex: 1 0 auto;
+      }
+
+      .footer {
+        flex-shrink: 0;
+      }
+    </style>
+    <title>Manufacturer</title>
+  </head>
+
+  <body id="manufacturer-section">
+    <div class="content">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">
+            <img src="./assets/abc.png" height="30" width="110" alt="" />
+          </a>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="collapse navbar-collapse justify-content-end"
+            id="navbarNav"
+          >
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="addProduct.html">Add Product</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="addSeller.html">Add Seller</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="sellProductManufacturer.html"
+                  >Sell Product To Seller</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="querySeller.html"
+                  >Query Seller</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Section  -->
+      <section
+        id="hero"
+        class="d-flex justify-content-center align-items-center"
+        style="min-height: 92%"
+      >
+        <div
+          class="container col-md-12 px-4 mt-5 mt-sm-4 mt-md-0 mt-lg-0 mt-xl-0"
+        >
+          <div
+            class="row align-items-center"
+            style="min-height: calc(100vh - 150px)"
+          >
+            <div class="col-md-6">
+              <h1 class="display-5 fw-bold lh-1 mb-3" id="myHeader">
+                Manufacturer
+              </h1>
+              <p class="lead" style="text-align: justify">
+                Our cutting-edge solution leverages the power of blockchain to
+                provide a reliable and immutable way of tracking and verifying
+                the authenticity of products. By integrating blockchain
+                technology, your product offers an unparalleled level of
+                transparency and security, ensuring that counterfeit products
+                can be quickly and easily identified and removed from
+                circulation.
+              </p>
+            </div>
+            <div class="col-md-6">
+              <img
+                src="./assets/Manufacturer_illustration.svg"
+                class="img-fluid"
+                alt="manufacturer svg"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Modal on load  -->
+      <div>
+        <div
+          class="modal"
+          id="myModal"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+              <div
+                class="modal-body d-flex justify-content-center flex-column align-items-center"
+              >
+                <img
+                  src="./assets/metamask.gif"
+                  height="200px"
+                  width="250px"
+                  style="
+                    user-select: none;
+                    -moz-user-select: none;
+                    -webkit-user-drag: none;
+                    -webkit-user-select: none;
+                    -ms-user-select: none;
+                  "
+                  alt="wallet gif"
+                />
+                <div class="d-flex justify-content-center">
+                  <button
+                    id="connect-button"
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-dismiss="modal"
+                  >
+                    Connect Wallet
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer  -->
+    <div class="footer bg-dark text-center text-light">
+      Copyright © 2023, All Rights Reserved
+    </div>
+
+    <script>
+      var IsLoggedIn = false;
+      if (IsLoggedIn == false) {
+        document
+          .getElementById("connect-button")
+          .addEventListener("click", (event) => {
+            let account;
+            let button = event.target;
+
+            if (window.ethereum === undefined) {
+              console.log("Metamask Not Installed!!!");
+              alert("Metamask Not Installed!!!");
+              window.location.reload();
+            }
+
+            ethereum
+              .request({ method: "eth_requestAccounts" })
+              .then((accounts) => {
+                console.log("Metamask is Installed");
+                account = accounts[0];
+                console.log("Account Address = ", account);
+                button.textContent = "Welcome!-->" + account;
+                IsLoggedIn = true;
+                if (IsLoggedIn) {
+                  // var acc = account.slice(0, 18);
+                  // showing only 1st 10 & last 4 digits
+                  var acc =
+                    account.slice(0, 10) +
+                    "...." +
+                    account.slice(account.length - 4);
+                  myHeader.innerText = "Welcome! " + acc;
+                }
+              });
+          });
+      }
+    </script>
+
+    <script>
+      // javascript to handle modal
+      let obj = document.getElementById("manufacturer-section");
+      obj.onload = myFunction;
+
+      function myFunction() {
+        let myModal = new bootstrap.Modal(
+          document.getElementById("myModal"),
+          {}
+        );
+        myModal.toggle();
+      }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script> -->
+    <!-- <script src="js/main.js"></script> -->
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+  </body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="fav.ico" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+
+    <style>
+      /* These classes are for solving issue of footer -- */
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .content {
+        flex: 1 0 auto;
+      }
+
+      .footer {
+        flex-shrink: 0;
+      }
+    </style>
+    <title>Add Product</title>
+  </head>
+
+  <body id="manufacturer-section">
+    <div class="content">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">
+            <img src="./assets/abc.png" height="30" width="110" alt="" />
+          </a>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="collapse navbar-collapse justify-content-end"
+            id="navbarNav"
+          >
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="addProduct.html">Add Product</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="addSeller.html">Add Seller</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="sellProductManufacturer.html"
+                  >Sell Product To Seller</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-5" href="querySeller.html"
+                  >Query Seller</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Section  -->
+      <section id="add-product">
+        <div
+          class="container col-md-12 d-flex flex-column flex-sm-column flex-md-row flex-lg-row justify-content-between pt-5"
+        >
+          <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="mb-2">
+              <label
+                for="manufacturerID"
+                name="Manufacturer ID"
+                class="form-label"
+                >Manufacturer ID</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="manufacturerID"
+                aria-describedby="manufacturerID"
+                value=""
+                readonly
+                disabled
+              />
+            </div>
+            <div class="mb-2">
+              <label for="productSN" class="form-label">Product SN</label>
+              <input
+                name="productSN"
+                type="text"
+                class="form-control"
+                id="productSN"
+                value=""
+                readonly
+                disabled
+              />
+            </div>
+            <div class="mb-2">
+              <label for="productName" class="form-label">Product Name</label>
+              <input
+                name="productName"
+                type="text"
+                class="form-control"
+                id="productName"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="productBrand" class="form-label"
+                >Product Brand
+              </label>
+              <input
+                name="productBrand"
+                type="text"
+                class="form-control"
+                id="productBrand"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="productPrice" class="form-label"
+                >Product Price
+              </label>
+              <input
+                name="productPrice"
+                type="number"
+                min="1"
+                max="9999999"
+                class="form-control"
+                id="productPrice"
+              />
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary btn-register"
+              id="register"
+              onclick="fetchQR()"
+            >
+              Add Product
+            </button>
+          </div>
+
+          <div class="qr-code col-12 col-sm-12 col-md-6 col-lg-6 my-4 my-sm-4">
+            <h2 hidden id="qr-code-heading" class="text-center mb-4">
+              QR Code
+            </h2>
+            <div class="d-flex justify-content-center">
+              <img hidden id="imgQR" src="" alt="qr-code" />
+            </div>
+
+            <div class="d-flex justify-content-center" style="margin-top: 23px">
+              <button
+                hidden
+                type="submit"
+                class="btn btn-warning"
+                id="download"
+                onclick="saveImage()"
+              >
+                Download QR Code
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer  -->
+    <div class="footer bg-dark text-center text-light py-1">
+      Copyright © 2023, All Rights Reserved
+    </div>
+
+    <script>
+      // Check if window.ethereum is defined (i.e., Metamask is installed and running)
+      if (window.ethereum) {
+        // Request account access
+        window.ethereum
+          .request({ method: "eth_requestAccounts" })
+          .then(function (accounts) {
+            console.log("Metamask is Installed");
+            // Get the first account (Metamask address)
+            const metamaskAddress = accounts[0];
+            let result = metamaskAddress.slice(0, 18);
+            // let result = metamaskAddress;
+            document.getElementById("manufacturerID").value = result;
+
+            console.log(result);
+            console.log(metamaskAddress);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } else {
+        console.log("Metamask not detected.");
+        alert("Metamask not detected.");
+        window.location.reload();
+      }
+    </script>
+
+    <script>
+      // generate ProductSN
+      const array = new Uint32Array(10);
+      self.crypto.getRandomValues(array);
+
+      console.log("Your lucky numbers:");
+      for (const num of array) {
+        document.getElementById("productSN").value = num;
+      }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="js/main.js"></script> -->
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/productApp.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script>
+      // js for Fetch QR & show QR
+      var src;
+      var qrValue;
+      function fetchQR() {
+        console.log("I AM HERE");
+
+        let prodName = document.getElementById("productName").value;
+        let prodBrand = document.getElementById("productBrand").value;
+        let prodPrice = document.getElementById("productPrice").value;
+        console.log(`Product Name = ${prodName}`);
+        console.log(`Product Brand =  ${prodBrand}`);
+        console.log(`Product Price = ${prodPrice}`);
+
+        if (
+          prodName.length != 0 &&
+          prodBrand.length != 0 &&
+          prodPrice.length != 0
+        ) {
+          // Show QR only when All Input Fields have length > 0
+          qrValue = document.getElementById("productSN").value;
+          console.log("qrvalue", qrValue);
+          qrImage = document.querySelector(".qr-code");
+          qrImageResult = qrImage.querySelector("img");
+          src =
+            qrImageResult.src = `https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${qrValue}`;
+
+          downloadQrImg = document.getElementById("imgQR");
+          downloadQrBtn = document.getElementById("download");
+          qrHeading = document.getElementById("qr-code-heading");
+          downloadQrImg.removeAttribute("hidden");
+          downloadQrBtn.removeAttribute("hidden");
+          qrHeading.removeAttribute("hidden");
+        }
+      }
+
+      function saveImage() {
+        saveAs(src, qrValue);
+        downloadQrImg.setAttribute("hidden", "hidden");
+        downloadQrBtn.setAttribute("hidden", "hidden");
+      }
+    </script>
+  </body>
+</html>
